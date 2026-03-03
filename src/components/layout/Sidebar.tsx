@@ -12,42 +12,54 @@ export function Sidebar() {
           <p className="text-text-secondary text-xs font-normal">SaaS Productivity</p>
         </div>
       </div>
-      <nav className="flex-1 px-4 py-4 flex flex-col gap-1 overflow-y-auto">
-        <a
-          href="#"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/20 text-primary transition-colors"
-        >
-          <LayoutGrid className="w-5 h-5" />
-          <span className="text-sm font-medium">Projects</span>
-        </a>
-        <a
-          href="#"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors"
-        >
-          <CheckSquare className="w-5 h-5" />
-          <span className="text-sm font-medium">Tasks</span>
-        </a>
-        <a
-          href="#"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors"
-        >
-          <Users className="w-5 h-5" />
-          <span className="text-sm font-medium">Team</span>
-        </a>
-        <a
-          href="#"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors"
-        >
-          <BarChart3 className="w-5 h-5" />
-          <span className="text-sm font-medium">Analytics</span>
-        </a>
-        <a
-          href="#"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors"
-        >
-          <Calendar className="w-5 h-5" />
-          <span className="text-sm font-medium">Calendar</span>
-        </a>
+      <nav className="flex-1 px-4 py-4 overflow-y-auto">
+        <ul className="flex flex-col gap-1">
+          <li>
+            <a
+              href="#"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/20 text-primary transition-colors"
+            >
+              <LayoutGrid className="w-5 h-5" />
+              <span className="text-sm font-medium">Projects</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors"
+            >
+              <CheckSquare className="w-5 h-5" />
+              <span className="text-sm font-medium">Tasks</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors"
+            >
+              <Users className="w-5 h-5" />
+              <span className="text-sm font-medium">Team</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors"
+            >
+              <BarChart3 className="w-5 h-5" />
+              <span className="text-sm font-medium">Analytics</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors"
+            >
+              <Calendar className="w-5 h-5" />
+              <span className="text-sm font-medium">Calendar</span>
+            </a>
+          </li>
+        </ul>
       </nav>
       <div className="px-4 py-4 border-t border-border-dark flex flex-col gap-1">
         <a
