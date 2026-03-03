@@ -1,4 +1,5 @@
 /* Google Fonts - Must be first */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -38,6 +39,12 @@
   --color-tag-purple-bg: rgba(139, 92, 246, 0.1);
   --color-tag-emerald: #10b981;
   --color-tag-emerald-bg: rgba(16, 185, 129, 0.1);
+  --color-tag-red: #ef4444;
+  --color-tag-red-bg: rgba(239, 68, 68, 0.1);
+  --color-tag-yellow: #eab308;
+  --color-tag-yellow-bg: rgba(234, 179, 8, 0.1);
+  --color-tag-cyan: #06b6d4;
+  --color-tag-cyan-bg: rgba(6, 182, 212, 0.1);
   
   /* Typography */
   --font-heading: 'Space Grotesk', sans-serif;
@@ -124,6 +131,28 @@ h1, h2, h3, h4, h5, h6 {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
+/* Touch-friendly styles for mobile */
+@media (pointer: coarse) {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  /* Larger touch targets on mobile */
+  button, 
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Dragging styles */
+.dragging {
+  opacity: 0.5;
+  cursor: grabbing !important;
+}
+
 /* Utility Classes */
 @layer utilities {
   .font-heading {
@@ -141,6 +170,51 @@ h1, h2, h3, h4, h5, h6 {
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
+  
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Animation utilities */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoom-in-95 {
+  from { 
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-in {
+  animation-duration: 200ms;
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: fade-in;
+}
+
+.zoom-in-95 {
+  animation-name: zoom-in-95;
 }
 
 /* Reduced Motion */
@@ -149,4 +223,44 @@ h1, h2, h3, h4, h5, h6 {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Responsive touch improvements */
+@media (max-width: 1024px) {
+  /* Horizontal scroll snap for columns on tablet */
+  .snap-x {
+    scroll-snap-type: x mandatory;
+  }
+  
+  .snap-start {
+    scroll-snap-align: start;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  /* Smaller padding on mobile */
+  .px-6 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Full-width modals on mobile */
+  .modal-content {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    min-height: 100vh;
+  }
+}
+
+/* Focus visible styles */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Remove default focus outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
 }
