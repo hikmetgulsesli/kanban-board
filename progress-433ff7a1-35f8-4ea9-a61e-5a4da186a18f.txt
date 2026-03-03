@@ -1,75 +1,22 @@
-=== US-001: Project Setup & Design Tokens ===
-COMPLETED: 2026-03-03T13:00:00+03:00
-FILES CHANGED: 
-- src/index.css (design tokens)
-- tailwind.config.js
-- package.json
-KEY DECISIONS:
-- Using Space Grotesk + DM Sans font pair
-- SaaS/Productivity color palette
-- Dark mode as default
-DEPENDENCIES ADDED: lucide-react
-
-=== US-002: Data Layer & TypeScript Types ===
-COMPLETED: 2026-03-03T14:00:00+03:00
-FILES CHANGED:
-- src/types/index.ts
-- src/hooks/useBoard.ts
-- src/utils/date.ts
-KEY DECISIONS:
-- Using Record<string, Card> for O(1) lookups
-- localStorage for persistence
-- Date utilities for due date formatting
-
-=== US-003: Column Management ===
-COMPLETED: 2026-03-03T15:00:00+03:00
-FILES CHANGED:
-- src/components/board/Column.tsx
-- src/components/board/Board.tsx
-- src/components/board/PromptDialog.tsx
-KEY DECISIONS:
-- Column component with add card button
-- Prompt dialog for adding new columns
-- Column header with card count badge
-
-=== US-004: Card CRUD Operations ===
-COMPLETED: 2026-03-03T16:53:00+03:00
-FILES CHANGED:
-- src/components/board/Card.tsx
-- src/components/board/CardModal.tsx
-- src/components/board/Column.tsx
-- src/components/board/Board.tsx
-- src/components/board/ConfirmDialog.tsx
-- src/index.css (mobile optimizations)
-KEY DECISIONS:
-- Card component with color indicator bar
-- CardModal with all fields (title, description, tags, color, due date, assignee, priority)
-- Tag selection with predefined options + custom tags
-- Color picker using CARD_COLORS
-- Due date with overdue/due soon indicators
-- Delete confirmation dialog
-- Tests in useBoard.test.ts (6 tests)
-DEPENDENCIES ADDED: None
-
 === US-005: Drag & Drop Card Movement ===
 COMPLETED: 2026-03-03T15:22:00+03:00
-FILES CHANGED:
-- src/components/board/SortableCard.tsx
-- src/components/board/SortableColumn.tsx
-- src/hooks/useBoard.ts (moveCard, reorderCards)
+FILES CHANGED: 
+- src/types/index.ts (new)
+- src/context/BoardContext.ts (new)
+- src/context/BoardContextValue.ts (new)
+- src/context/BoardProvider.tsx (new)
+- src/context/useBoard.ts (new)
+- src/context/index.ts (new)
+- src/components/board/Board.tsx (new)
+- src/components/board/SortableCard.tsx (new)
+- src/components/board/SortableColumn.tsx (new)
+- src/components/board/index.ts (new)
+- src/services/storage.ts (updated)
+- src/App.tsx (updated)
+- src/index.css (updated)
 KEY DECISIONS:
-- Using @dnd-kit/core and @dnd-kit/sortable
-- Drag overlay for visual feedback
-- moveCard and reorderCards functions in useBoard hook
+- Used @dnd-kit/core and @dnd-kit/sortable for drag-drop
+- Split context into multiple files to satisfy React Fast Refresh
+- Implemented drag overlay for visual feedback during drag
+- Data persists to localStorage automatically via useEffect
 DEPENDENCIES ADDED: @dnd-kit/core, @dnd-kit/sortable, @dnd-kit/utilities
-
-=== US-006: Filtering & Search ===
-COMPLETED: 2026-03-03T15:45:00+03:00
-FILES CHANGED:
-- src/components/layout/Header.tsx (filter UI)
-- src/hooks/useBoard.ts (filter logic)
-KEY DECISIONS:
-- Search by title/description
-- Filter by tags (AND logic)
-- Filter by due date (overdue, today, this week)
-- Clear all filters button
