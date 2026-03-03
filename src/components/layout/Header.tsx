@@ -32,26 +32,26 @@ export function Header({
   };
 
   return (
-    <header className="h-16 border-b border-border-dark flex items-center justify-between px-6 bg-background-dark/80 backdrop-blur-sm z-10">
-      <div className="flex items-center gap-4">
-        <h2 className="text-xl font-bold text-white tracking-tight font-heading">Sprint Board - Q3 Goals</h2>
-        <div className="h-6 w-px bg-border-dark"></div>
+    <header className="h-auto md:h-16 border-b border-border-dark flex flex-col md:flex-row md:items-center justify-between px-4 md:px-6 py-3 md:py-0 bg-background-dark/80 backdrop-blur-sm z-10 gap-3 md:gap-0">
+      <div className="flex items-center gap-3 md:gap-4">
+        <h2 className="text-lg md:text-xl font-bold text-white tracking-tight font-heading truncate">Sprint Board</h2>
+        <div className="hidden md:block h-6 w-px bg-border-dark"></div>
         <div className="flex -space-x-2">
-          <div className="h-8 w-8 rounded-full border-2 border-background-dark bg-purple-500 flex items-center justify-center text-xs font-bold text-white">JD</div>
-          <div className="h-8 w-8 rounded-full border-2 border-background-dark bg-blue-500 flex items-center justify-center text-xs font-bold text-white">AS</div>
-          <div className="h-8 w-8 rounded-full border-2 border-background-dark bg-emerald-500 flex items-center justify-center text-xs font-bold text-white">MK</div>
-          <div className="h-8 w-8 rounded-full border-2 border-background-dark bg-card-dark flex items-center justify-center text-xs text-text-secondary">+2</div>
+          <div className="h-7 w-7 md:h-8 md:w-8 rounded-full border-2 border-background-dark bg-purple-500 flex items-center justify-center text-xs font-bold text-white">JD</div>
+          <div className="h-7 w-7 md:h-8 md:w-8 rounded-full border-2 border-background-dark bg-blue-500 flex items-center justify-center text-xs font-bold text-white">AS</div>
+          <div className="h-7 w-7 md:h-8 md:w-8 rounded-full border-2 border-background-dark bg-emerald-500 flex items-center justify-center text-xs font-bold text-white">MK</div>
+          <div className="h-7 w-7 md:h-8 md:w-8 rounded-full border-2 border-background-dark bg-card-dark flex items-center justify-center text-xs text-text-secondary">+2</div>
         </div>
       </div>
-      <div className="flex items-center gap-3">
-        <div className="relative group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-secondary group-focus-within:text-primary transition-colors" />
+      <div className="flex items-center gap-2 md:gap-3">
+        <div className="relative group flex-1 md:flex-none">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-text-secondary group-focus-within:text-primary transition-colors" />
           <input
             type="text"
             placeholder="Search tasks..."
             value={filters.searchText}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="bg-card-dark border border-transparent focus:border-primary focus:ring-0 rounded-lg py-2 pl-10 pr-10 text-sm text-white placeholder-text-secondary w-64 transition-all outline-none"
+            className="w-full md:w-64 bg-card-dark border border-transparent focus:border-primary focus:ring-0 rounded-lg py-2 pl-9 md:pl-10 pr-8 text-sm text-white placeholder-text-secondary transition-all outline-none"
           />
           {filters.searchText && (
             <button
@@ -177,12 +177,15 @@ export function Header({
             </div>
           )}
         </div>
-        <button aria-label="View notifications" className="flex items-center justify-center h-9 w-9 rounded-lg bg-card-dark text-text-secondary hover:text-white hover:bg-white/10 transition-colors cursor-pointer">
+        <button 
+          aria-label="View notifications" 
+          className="hidden md:flex items-center justify-center h-9 w-9 rounded-lg bg-card-dark text-text-secondary hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+        >
           <Bell className="w-5 h-5" />
         </button>
-        <button className="flex items-center gap-2 px-4 h-9 rounded-lg bg-primary hover:bg-primary-hover text-white text-sm font-semibold transition-colors shadow-lg shadow-primary/20 cursor-pointer">
+        <button className="flex items-center gap-1 md:gap-2 px-3 md:px-4 h-9 rounded-lg bg-primary hover:bg-primary-hover text-white text-sm font-semibold transition-colors shadow-lg shadow-primary/20 cursor-pointer">
           <Plus className="w-4 h-4" />
-          <span>New Task</span>
+          <span className="hidden md:inline">New Task</span>
         </button>
       </div>
     </header>
