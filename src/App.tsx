@@ -1,18 +1,56 @@
 import { Header, Sidebar, BoardContainer } from './components/layout';
+import { Board } from './components/board';
+import { useBoard } from './hooks/useBoard';
 
 function App() {
+  const {
+    board,
+    isLoaded,
+    filters,
+    filteredCardIds,
+    allTags,
+    hasActiveFilters,
+    createCard,
+    updateCard,
+    deleteCard,
+    moveCard,
+    createColumn,
+    setSearchText,
+    setSelectedTags,
+    setDueDateFilter,
+    clearFilters,
+  } = useBoard();
+
+  if (!isLoaded) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-background-dark">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="h-screen flex overflow-hidden bg-background-dark">
       <Sidebar />
       <BoardContainer>
-        <Header />
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-white mb-2 font-heading">Kanban Board</h1>
-            <p className="text-text-secondary">Project initialized successfully!</p>
-            <p className="text-text-muted text-sm mt-4">Ready for US-002: Drag & Drop Implementation</p>
-          </div>
-        </div>
+        <Header
+          filters={filters}
+          allTags={allTags}
+          hasActiveFilters={hasActiveFilters}
+          onSearchChange={setSearchText}
+          onTagsChange={setSelectedTags}
+          onDueDateChange={setDueDateFilter}
+          onClearFilters={clearFilters}
+        />
+        <Board
+          board={board}
+          filteredCardIds={filteredCardIds}
+          onCreateCard={createCard}
+          onUpdateCard={updateCard}
+          onDeleteCard={deleteCard}
+          onMoveCard={moveCard}
+          onCreateColumn={createColumn}
+        />
       </BoardContainer>
     </div>
   );
