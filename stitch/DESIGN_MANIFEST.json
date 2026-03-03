@@ -1,0 +1,25 @@
+{
+  "projectId": "5258714678474765598",
+  "projectName": "kanban-board",
+  "generatedAt": "2026-03-03T14:52:00Z",
+  "deviceType": "DESKTOP",
+  "screens": [
+    {
+      "screenId": "4fba81eb76c047ba8af444ce8ff458fb",
+      "title": "SaaS Kanban Main Board View",
+      "description": "Full-screen board with horizontally scrollable columns, card previews, filtering and search",
+      "htmlFile": "board-view.html",
+      "htmlUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ7Eh1YXBwX2NvbXBhbmlvbl9nZW5lcmF0ZWRfZmlsZXMaWgondG1sXzMwZWZiZDZjZGFmNDQyNTFhODA4OTcyZmVmMzFhYjU5EgsSBxCN19Wi9xcYAZIBIwoKcHJvamVjdF9pZBIVQhM1MjU4NzE0Njc4NDc0NzY1NTk4&filename=&opi=96797242",
+      "screenshotFile": "board-view.png",
+      "width": 2560,
+      "height": 2048
+    }
+  ],
+  "designSystem": {
+    "aesthetic": "minimal",
+    "palette": "SaaS / Productivity",
+    "headingFont": "Space Grotesk",
+    "bodyFont": "DM Sans",
+    "iconLibrary": "Lucide React"
+  }
+}

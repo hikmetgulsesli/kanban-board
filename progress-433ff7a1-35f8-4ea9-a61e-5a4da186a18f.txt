@@ -1,0 +1,22 @@
+=== US-005: Drag & Drop Card Movement ===
+COMPLETED: 2026-03-03T15:22:00+03:00
+FILES CHANGED: 
+- src/types/index.ts (new)
+- src/context/BoardContext.ts (new)
+- src/context/BoardContextValue.ts (new)
+- src/context/BoardProvider.tsx (new)
+- src/context/useBoard.ts (new)
+- src/context/index.ts (new)
+- src/components/board/Board.tsx (new)
+- src/components/board/SortableCard.tsx (new)
+- src/components/board/SortableColumn.tsx (new)
+- src/components/board/index.ts (new)
+- src/services/storage.ts (updated)
+- src/App.tsx (updated)
+- src/index.css (updated)
+KEY DECISIONS:
+- Used @dnd-kit/core and @dnd-kit/sortable for drag-drop
+- Split context into multiple files to satisfy React Fast Refresh
+- Implemented drag overlay for visual feedback during drag
+- Data persists to localStorage automatically via useEffect
+DEPENDENCIES ADDED: @dnd-kit/core, @dnd-kit/sortable, @dnd-kit/utilities
