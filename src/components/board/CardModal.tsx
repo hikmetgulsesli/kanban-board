@@ -185,10 +185,10 @@ export function CardModal({ card, isOpen, onClose, onSave, onDelete }: CardModal
                     onClick={handleAddCustomTag}
                     className="px-3 py-1.5 bg-background-dark text-text-secondary hover:text-white rounded-lg text-sm transition-colors"
                   >
- </button>
+                    Add
+                  </button>
                 </div>
-                                   Add
-                  {selectedTags.length > 0 && (
+                {selectedTags.length > 0 && (
                   <div className="flex flex-wrap gap-1 mt-2">
                     {selectedTags.map((tag) => (
                       <span
