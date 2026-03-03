@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
 import type { Card, Column as ColumnType } from '../../types';
 import { ColumnComponent } from './Column';
@@ -17,6 +17,8 @@ interface BoardProps {
   onDeleteCard: (cardId: string) => boolean;
   onMoveCard: (cardId: string, targetColumnId: string, targetIndex?: number) => void;
   onCreateColumn: (title: string) => ColumnType;
+  onAddNewCard: boolean;
+  onAddNewCardHandled: () => void;
 }
 
 export function Board({
@@ -27,17 +29,39 @@ export function Board({
   onDeleteCard,
   onMoveCard: _onMoveCard,
   onCreateColumn,
+  onAddNewCard,
+  onAddNewCardHandled,
 }: BoardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCard, setEditingCard] = useState<Card | null>(null);
   const [activeColumnId, setActiveColumnId] = useState<string>('');
   const [isPromptOpen, setIsPromptOpen] = useState(false);
 
+  useEffect(() => {
+    if (onAddNewCard && board.columnOrder.length > 0) {
+      onAddNewCardHandled();
+      // Open modal directly instead of calling handleAddCard
+      setEditingCard(null);
+      setActiveColumnId(board.columnOrder[0]);
+      setIsModalOpen(true);
+    }
+  }, [onAddNewCard, board.columnOrder, onAddNewCardHandled]);
+
   const handleAddCard = (columnId: string) => {
     setEditingCard(null);
     setActiveColumnId(columnId);
     setIsModalOpen(true);
   };
+
+  useEffect(() => {
+    if (onAddNewCard && board.columnOrder.length > 0) {
+      onAddNewCardHandled();
+      // Open modal directly instead of calling handleAddCard
+      setEditingCard(null);
+      setActiveColumnId(board.columnOrder[0]);
+      setIsModalOpen(true);
+    }
+  }, [onAddNewCard, board.columnOrder, onAddNewCardHandled]);
 
   const handleEditCard = (card: Card) => {
     setEditingCard(card);

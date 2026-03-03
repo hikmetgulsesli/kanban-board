@@ -10,6 +10,7 @@ interface HeaderProps {
   onTagsChange: (tags: string[]) => void;
   onDueDateChange: (filter: FilterState['dueDateFilter']) => void;
   onClearFilters: () => void;
+  onCreateCard: () => void;
 }
 
 export function Header({
@@ -20,6 +21,7 @@ export function Header({
   onTagsChange,
   onDueDateChange,
   onClearFilters,
+  onCreateCard,
 }: HeaderProps) {
   const [showFilters, setShowFilters] = useState(false);
 
@@ -180,7 +182,7 @@ export function Header({
         <button aria-label="View notifications" className="flex items-center justify-center h-9 w-9 rounded-lg bg-card-dark text-text-secondary hover:text-white hover:bg-white/10 transition-colors cursor-pointer">
           <Bell className="w-5 h-5" />
         </button>
-        <button className="flex items-center gap-2 px-4 h-9 rounded-lg bg-primary hover:bg-primary-hover text-white text-sm font-semibold transition-colors shadow-lg shadow-primary/20 cursor-pointer">
+        <button onClick={onCreateCard} className="flex items-center gap-2 px-4 h-9 rounded-lg bg-primary hover:bg-primary-hover text-white text-sm font-semibold transition-colors shadow-lg shadow-primary/20 cursor-pointer">
           <Plus className="w-4 h-4" />
           <span>New Task</span>
         </button>

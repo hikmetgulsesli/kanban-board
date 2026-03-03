@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Header, Sidebar, BoardContainer } from './components/layout';
 import { Board } from './components/board';
 import { useBoard } from './hooks/useBoard';
@@ -21,6 +22,8 @@ function App() {
     clearFilters,
   } = useBoard();
 
+  const [triggerNewCard, setTriggerNewCard] = useState(false);
+
   if (!isLoaded) {
     return (
       <div className="h-screen flex items-center justify-center bg-background-dark">
@@ -28,6 +31,10 @@ function App() {
       </div>
     );
   }
+
+  const handleCreateCard = () => {
+    setTriggerNewCard(true);
+  };
 
   return (
     <div className="h-screen flex overflow-hidden bg-background-dark">
@@ -41,6 +48,7 @@ function App() {
           onTagsChange={setSelectedTags}
           onDueDateChange={setDueDateFilter}
           onClearFilters={clearFilters}
+          onCreateCard={handleCreateCard}
         />
         <Board
           board={board}
@@ -50,6 +58,8 @@ function App() {
           onDeleteCard={deleteCard}
           onMoveCard={moveCard}
           onCreateColumn={createColumn}
+          onAddNewCard={triggerNewCard}
+          onAddNewCardHandled={() => setTriggerNewCard(false)}
         />
       </BoardContainer>
     </div>
