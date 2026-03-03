@@ -1,6 +1,10 @@
 import { Search, Filter, Bell, Plus } from 'lucide-react';
 
-export function Header() {
+interface HeaderProps {
+  onNewTask?: () => void;
+}
+
+export function Header({ onNewTask }: HeaderProps) {
   return (
     <header className="h-16 border-b border-border-dark flex items-center justify-between px-6 bg-background-dark/80 backdrop-blur-sm z-10">
       <div className="flex items-center gap-4">
@@ -28,7 +32,10 @@ export function Header() {
         <button aria-label="View notifications" className="flex items-center justify-center h-9 w-9 rounded-lg bg-card-dark text-text-secondary hover:text-white hover:bg-white/10 transition-colors cursor-pointer">
           <Bell className="w-5 h-5" />
         </button>
-        <button className="flex items-center gap-2 px-4 h-9 rounded-lg bg-primary hover:bg-primary-hover text-white text-sm font-semibold transition-colors shadow-lg shadow-primary/20 cursor-pointer">
+        <button
+          onClick={onNewTask}
+          className="flex items-center gap-2 px-4 h-9 rounded-lg bg-primary hover:bg-primary-hover text-white text-sm font-semibold transition-colors shadow-lg shadow-primary/20 cursor-pointer"
+        >
           <Plus className="w-4 h-4" />
           <span>New Task</span>
         </button>
