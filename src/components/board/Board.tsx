@@ -1,31 +1,37 @@
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
-import type { Card, Column } from '../../types';
-import { useBoard } from '../../hooks/useBoard';
+import type { Card, Column as ColumnType } from '../../types';
 import { ColumnComponent } from './Column';
 import { CardModal } from './CardModal';
+import { PromptDialog } from './PromptDialog';
 
-export function Board() {
-  const {
-    board,
-    isLoaded,
-    createCard,
-    updateCard,
-    deleteCard,
-    createColumn,
-  } = useBoard();
+interface BoardProps {
+  board: {
+    cards: Record<string, Card>;
+    columns: Record<string, ColumnType>;
+    columnOrder: string[];
+  };
+  filteredCardIds: Set<string>;
+  onCreateCard: (columnId: string, cardData: Partial<Card>) => Card;
+  onUpdateCard: (cardId: string, updates: Partial<Card>) => Card | null;
+  onDeleteCard: (cardId: string) => boolean;
+  onMoveCard: (cardId: string, targetColumnId: string, targetIndex?: number) => void;
+  onCreateColumn: (title: string) => ColumnType;
+}
 
+export function Board({
+  board,
+  filteredCardIds,
+  onCreateCard,
+  onUpdateCard,
+  onDeleteCard,
+  onMoveCard: _onMoveCard,
+  onCreateColumn,
+}: BoardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCard, setEditingCard] = useState<Card | null>(null);
   const [activeColumnId, setActiveColumnId] = useState<string>('');
-
-  if (!isLoaded) {
-    return (
-      <div className="flex-1 flex items-center justify-center">
-        <div className="text-text-secondary">Loading...</div>
-      </div>
-    );
-  }
+  const [isPromptOpen, setIsPromptOpen] = useState(false);
 
   const handleAddCard = (columnId: string) => {
     setEditingCard(null);
@@ -41,27 +47,29 @@ export function Board() {
 
   const handleSaveCard = (cardData: Partial<Card>) => {
     if (editingCard) {
-      updateCard(editingCard.id, cardData);
+      onUpdateCard(editingCard.id, cardData);
     } else {
-      createCard(activeColumnId, cardData);
+      onCreateCard(activeColumnId, cardData);
     }
   };
 
   const handleDeleteCard = (cardId: string) => {
-    deleteCard(cardId);
+    onDeleteCard(cardId);
   };
 
   const handleAddColumn = () => {
-    const title = prompt('Enter column name:');
-    if (title?.trim()) {
-      createColumn(title.trim());
-    }
+    setIsPromptOpen(true);
   };
 
-  const getColumnCards = (column: Column): Card[] => {
+  const handlePromptConfirm = (title: string) => {
+    onCreateColumn(title);
+    setIsPromptOpen(false);
+  };
+
+  const getColumnCards = (column: ColumnType): Card[] => {
     return column.cardIds
       .map((id) => board.cards[id])
-      .filter((card): card is Card => card !== undefined);
+      .filter((card): card is Card => card !== undefined && filteredCardIds.has(card.id));
   };
 
   return (
@@ -102,6 +110,14 @@ export function Board() {
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveCard}
         onDelete={editingCard ? handleDeleteCard : undefined}
+      />
+
+      <PromptDialog
+        isOpen={isPromptOpen}
+        title="Add New Column"
+        placeholder="Enter column name"
+        onConfirm={handlePromptConfirm}
+        onCancel={() => setIsPromptOpen(false)}
       />
     </>
   );

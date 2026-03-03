@@ -51,3 +51,9 @@ export const TAG_COLORS: Record<string, { bg: string; text: string }> = {
   'Design': { bg: 'bg-blue-500/10', text: 'text-blue-400' },
   'Content': { bg: 'bg-blue-500/10', text: 'text-blue-400' },
 };
+
+export interface FilterState {
+  searchText: string;
+  selectedTags: string[];
+  dueDateFilter: 'all' | 'overdue' | 'today' | 'thisWeek';
+}

@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
-import type { Card, Column, BoardState } from '../types';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import type { Card, Column, BoardState, FilterState } from '../types';
 
 const STORAGE_KEY = 'kanban-board-data';
+const FILTER_STORAGE_KEY = 'kanban-board-filters';
 
 const initialData: BoardState = {
   cards: {
@@ -120,10 +121,42 @@ const initialData: BoardState = {
   columnOrder: ['col-1', 'col-2', 'col-3'],
 };
 
+const initialFilters: FilterState = {
+  searchText: '',
+  selectedTags: [],
+  dueDateFilter: 'all',
+};
+
+function isOverdue(dateStr: string | null): boolean {
+  if (!dateStr) return false;
+  const dueDate = new Date(dateStr);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return dueDate < today;
+}
+
+function isToday(dateStr: string | null): boolean {
+  if (!dateStr) return false;
+  const dueDate = new Date(dateStr);
+  const today = new Date();
+  return dueDate.toDateString() === today.toDateString();
+}
+
+function isThisWeek(dateStr: string | null): boolean {
+  if (!dateStr) return false;
+  const dueDate = new Date(dateStr);
+  const today = new Date();
+  const weekEnd = new Date(today);
+  weekEnd.setDate(today.getDate() + 7);
+  return dueDate >= today && dueDate <= weekEnd;
+}
+
 export function useBoard() {
   const [board, setBoard] = useState<BoardState>(initialData);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [filters, setFilters] = useState<FilterState>(initialFilters);
 
+  // Load board data
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
@@ -137,11 +170,29 @@ export function useBoard() {
     setIsLoaded(true);
   }, []);
 
+  // Load filters
+  useEffect(() => {
+    const storedFilters = localStorage.getItem(FILTER_STORAGE_KEY);
+    if (storedFilters) {
+      try {
+        setFilters(JSON.parse(storedFilters));
+      } catch (e) {
+        console.error('Failed to parse filters:', e);
+      }
+    }
+  }, []);
+
+  // Save board data
   useEffect(() => {
     if (isLoaded) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(board));
     }
   }, [board, isLoaded]);
+
+  // Save filters
+  useEffect(() => {
+    localStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(filters));
+  }, [filters]);
 
   const generateId = () => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
@@ -337,9 +388,88 @@ export function useBoard() {
     }));
   }, []);
 
+  // Filter functions
+  const setSearchText = useCallback((text: string) => {
+    setFilters((prev) => ({ ...prev, searchText: text }));
+  }, []);
+
+  const setSelectedTags = useCallback((tags: string[]) => {
+    setFilters((prev) => ({ ...prev, selectedTags: tags }));
+  }, []);
+
+  const setDueDateFilter = useCallback((filter: FilterState['dueDateFilter']) => {
+    setFilters((prev) => ({ ...prev, dueDateFilter: filter }));
+  }, []);
+
+  const clearFilters = useCallback(() => {
+    setFilters(initialFilters);
+  }, []);
+
+  const hasActiveFilters = useMemo(() => {
+    return (
+      filters.searchText !== '' ||
+      filters.selectedTags.length > 0 ||
+      filters.dueDateFilter !== 'all'
+    );
+  }, [filters]);
+
+  // Get all unique tags from cards
+  const allTags = useMemo(() => {
+    const tagSet = new Set<string>();
+    Object.values(board.cards).forEach((card) => {
+      card.tags.forEach((tag) => tagSet.add(tag));
+    });
+    return Array.from(tagSet).sort();
+  }, [board.cards]);
+
+  // Filter cards based on current filters
+  const filteredCards = useMemo(() => {
+    return Object.values(board.cards).filter((card) => {
+      // Text search filter
+      if (filters.searchText) {
+        const searchLower = filters.searchText.toLowerCase();
+        const matchesTitle = card.title.toLowerCase().includes(searchLower);
+        const matchesDescription = card.description.toLowerCase().includes(searchLower);
+        if (!matchesTitle && !matchesDescription) return false;
+      }
+
+      // Tag filter (AND logic - card must have ALL selected tags)
+      if (filters.selectedTags.length > 0) {
+        const hasAllTags = filters.selectedTags.every((tag) => card.tags.includes(tag));
+        if (!hasAllTags) return false;
+      }
+
+      // Due date filter
+      if (filters.dueDateFilter !== 'all') {
+        switch (filters.dueDateFilter) {
+          case 'overdue':
+            if (!isOverdue(card.dueDate)) return false;
+            break;
+          case 'today':
+            if (!isToday(card.dueDate)) return false;
+            break;
+          case 'thisWeek':
+            if (!isThisWeek(card.dueDate)) return false;
+            break;
+        }
+      }
+
+      return true;
+    });
+  }, [board.cards, filters]);
+
+  // Get filtered card IDs
+  const filteredCardIds = useMemo(() => {
+    return new Set(filteredCards.map((card) => card.id));
+  }, [filteredCards]);
+
   return {
     board,
     isLoaded,
+    filters,
+    filteredCardIds,
+    allTags,
+    hasActiveFilters,
     createCard,
     updateCard,
     deleteCard,
@@ -349,5 +479,9 @@ export function useBoard() {
     deleteColumn,
     reorderColumns,
     reorderCards,
+    setSearchText,
+    setSelectedTags,
+    setDueDateFilter,
+    clearFilters,
   };
 }
