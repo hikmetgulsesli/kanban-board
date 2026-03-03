@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useBoard } from './useBoard';
+import type { Card, Column } from '../types';
 
 describe('useBoard', () => {
   beforeEach(() => {
@@ -18,7 +19,10 @@ describe('useBoard', () => {
     });
 
     const cards = Object.values(result.current.board.cards);
-    expect(cards.some((card) => (card as { title: string }).title === 'New Test Card')).toBe(true);
+    const newCard = cards.find((card) => card.title === 'New Test Card') as Card | undefined;
+    expect(newCard).toBeDefined();
+    expect(newCard?.description).toBe('Test Description');
+    expect(newCard?.columnId).toBe('col-1');
   });
 
   it('updates an existing card', () => {
@@ -87,7 +91,9 @@ describe('useBoard', () => {
     });
 
     const columns = Object.values(result.current.board.columns);
-    expect(columns.some((col) => (col as { title: string }).title === 'New Column')).toBe(true);
+    const newColumn = columns.find((col) => col.title === 'New Column') as Column | undefined;
+    expect(newColumn).toBeDefined();
+    expect(newColumn?.cardIds).toEqual([]);
   });
 
   it('persists data to localStorage', () => {
@@ -103,8 +109,9 @@ describe('useBoard', () => {
     expect(stored).toBeTruthy();
     
     const parsed = JSON.parse(stored!);
-    expect(Object.values(parsed.cards as { title: string }[]).some((card) => 
-      card.title === 'Persisted Card'
-    )).toBe(true);
+    const cards = Object.values(parsed.cards) as Card[];
+    const persistedCard = cards.find((card) => card.title === 'Persisted Card');
+    expect(persistedCard).toBeDefined();
+    expect(persistedCard?.columnId).toBe('col-1');
   });
 });
