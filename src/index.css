@@ -1,4 +1,6 @@
 /* Google Fonts - Must be first */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -140,6 +142,34 @@ h1, h2, h3, h4, h5, h6 {
   
   .tabular-nums {
     font-variant-numeric: tabular-nums;
+  }
+  
+  .bg-background-dark {
+    background-color: var(--color-background-dark);
+  }
+  
+  .bg-card-dark {
+    background-color: var(--color-card-dark);
+  }
+  
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+  
+  .bg-primary-hover:hover {
+    background-color: var(--color-primary-hover);
+  }
+  
+  .border-border-dark {
+    border-color: var(--color-border-dark);
+  }
+  
+  .text-text-secondary {
+    color: var(--color-text-secondary);
+  }
+  
+  .text-text-muted {
+    color: var(--color-text-muted);
   }
 }
 
